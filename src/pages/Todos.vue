@@ -1,10 +1,14 @@
 <template>
   <q-page padding>
-    <q-list>
-      <q-item v-for="todo in todos" :key="todo.id">
+    <q-list highlight v-if="todos.length > 0">
+      <q-list-header>Todos</q-list-header>
+      <q-item v-for="todo in todos" :key="todo.id" separator>
         <q-item-main :label="todo.text" />
       </q-item>
     </q-list>
+    <div v-else>
+      There are no todos yet :(
+    </div>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn round color="primary" icon="add" size="xl" @click="addModalOpened = true" />
     </q-page-sticky>
@@ -35,7 +39,7 @@
             <q-btn
               color="primary"
               label="OK"
-              @click="addModalOpened = false"
+              @click="okClickHandler"
               class="col-auto"
             />
           </div>
@@ -56,6 +60,13 @@ export default {
       text: ''
     }
   },
+  watch: {
+    addModalOpened (value) {
+      if (value) {
+        this.text = ''
+      }
+    }
+  },
   computed: {
     ...mapGetters({
       todos: 'todos/getTodos'
@@ -63,8 +74,14 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchTodos: 'todos/fetchTodos'
-    })
+      fetchTodos: 'todos/fetchTodos',
+      addTodo: 'todos/addTodo'
+    }),
+    okClickHandler () {
+      this.addTodo({ text: this.text }).then(() => {
+        this.addModalOpened = false
+      })
+    }
   },
   mounted () {
     this.fetchTodos()
