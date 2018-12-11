@@ -8,3 +8,9 @@ export const addTodo = ({commit}, todo) =>
     commit('storeAddTodo', todo)
     resolve()
   })
+
+export const deleteTodo = ({commit}, id) =>
+  new Promise((resolve, reject) => {
+    commit('storeDeleteTodo', id)
+    resolve()
+  })

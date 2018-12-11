@@ -4,6 +4,9 @@
       <q-list-header>Todos</q-list-header>
       <q-item v-for="todo in todos" :key="todo.id" separator>
         <q-item-main :label="todo.text" />
+        <q-item-side>
+          <q-btn icon="delete" round @click="deleteTodo(todo.id)" />
+        </q-item-side>
       </q-item>
     </q-list>
     <div v-else>
@@ -75,7 +78,8 @@ export default {
   methods: {
     ...mapActions({
       fetchTodos: 'todos/fetchTodos',
-      addTodo: 'todos/addTodo'
+      addTodo: 'todos/addTodo',
+      deleteTodo: 'todos/deleteTodo'
     }),
     okClickHandler () {
       this.addTodo({ text: this.text }).then(() => {
