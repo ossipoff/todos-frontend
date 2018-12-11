@@ -1,3 +1,3 @@
 export const storeTodos = (state, todos) => {
-    state.todos = todos
-  }
+  state.todos = todos
+}
