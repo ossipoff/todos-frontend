@@ -5,7 +5,8 @@
       <q-item v-for="todo in todos" :key="todo.id" separator>
         <q-item-main :label="todo.text" />
         <q-item-side>
-          <q-btn icon="delete" round @click="deleteTodo(todo.id)" />
+          <q-btn icon="edit" round @click="editTodo(todo)" class="q-ma-xs" />
+          <q-btn icon="delete" round @click="deleteTodo(todo.id)" class="q-ma-xs" />
         </q-item-side>
       </q-item>
     </q-list>
@@ -60,12 +61,13 @@ export default {
   data () {
     return {
       addModalOpened: false,
-      text: ''
+      text: '',
+      id: null
     }
   },
   watch: {
     addModalOpened (value) {
-      if (value) {
+      if (!value) {
         this.text = ''
       }
     }
@@ -79,12 +81,27 @@ export default {
     ...mapActions({
       fetchTodos: 'todos/fetchTodos',
       addTodo: 'todos/addTodo',
-      deleteTodo: 'todos/deleteTodo'
+      deleteTodo: 'todos/deleteTodo',
+      updateTodo: 'todos/updateTodo'
     }),
     okClickHandler () {
-      this.addTodo({ text: this.text }).then(() => {
-        this.addModalOpened = false
-      })
+      if (this.id === null) {
+        this.addTodo({ text: this.text }).then(() => {
+          this.addModalOpened = false
+        })
+      } else {
+        let todo = this.todos.filter((todo) => todo.id === this.id)[0]
+        todo.text = this.text
+        this.id = null
+        this.updateTodo(todo).then(() => {
+          this.addModalOpened = false
+        })
+      }
+    },
+    editTodo (todo) {
+      this.id = todo.id
+      this.text = todo.text
+      this.addModalOpened = true
     }
   },
   mounted () {

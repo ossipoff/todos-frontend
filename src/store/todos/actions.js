@@ -14,3 +14,8 @@ export const deleteTodo = ({commit}, id) =>
     commit('storeDeleteTodo', id)
     resolve()
   })
+
+export const updateTodo = ({commit}, todo) =>
+  new Promise((resolve, reject) => {
+    resolve()
+  })
