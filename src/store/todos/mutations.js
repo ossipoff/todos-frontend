@@ -13,3 +13,10 @@ export const storeDeleteTodo = (state, id) => {
     state.todos.splice(state.todos.indexOf(todos[0]), 1)
   }
 }
+
+export const storeUpdateTodo = (state, todo) => {
+  const todos = state.todos.filter((t) => t.id === todo.id)
+  if (todos.length === 1) {
+    todos[0].text = todo.text
+  }
+}
