@@ -34,7 +34,7 @@ export const deleteTodo = ({commit}, id) =>
 
 export const updateTodo = ({commit}, todo) =>
   new Promise((resolve, reject) => {
-    axios.put(`${baseUrl}/todos/${todo.id}`, todo).then(response => {
+    axios.put(`${baseUrl}/todos/${todo.id}`, { text: todo.text }).then(response => {
       commit('storeUpdateTodo', todo)
       resolve()
     }).catch(error => {
