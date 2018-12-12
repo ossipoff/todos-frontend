@@ -7,6 +7,7 @@
             round
             dense
             icon="keyboard_arrow_left"
+            @click="cancelClickHandler"
           />
           <q-toolbar-title>
             {{ headerTitle }} todo
