@@ -9,7 +9,7 @@
             icon="keyboard_arrow_left"
           />
           <q-toolbar-title>
-            Add todo
+            {{ headerTitle }} todo
           </q-toolbar-title>
         </q-toolbar>
 
@@ -42,7 +42,8 @@ export default {
     return {
       modalOpened: false,
       text: '',
-      id: null
+      id: null,
+      headerTitle: 'Add'
     }
   },
   methods: {
@@ -50,6 +51,12 @@ export default {
       this.text = todo.text
       this.id = todo.id
       this.modalOpened = true
+
+      if (this.id === null) {
+        this.headerTitle = 'Add'
+      } else {
+        this.headerTitle = 'Edit'
+      }
     },
     okClickHandler () {
       this.$emit('ok', { id: this.id, text: this.text })
